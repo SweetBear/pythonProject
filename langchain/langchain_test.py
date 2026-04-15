@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 @Project ：pythonProject
-@File    ：LangChainTest.py
+@File    ：langchain_test.py
 @Author  ：Administrator
 @Date    ：2026/4/11 14:11
 @Description :
@@ -24,9 +24,9 @@ client = ChatOpenAI(api_key=openai.api_key, base_url=openai.api_base_url, model=
 message = [HumanMessage(content="查一下北京今天的天气")]
 
 #等执行结束打印
-#aiResponse = client.invoke(message)
-#print(aiResponse)
-#print(aiResponse.content)
+aiResponse = client.invoke(message)
+print(aiResponse)
+print(aiResponse.content)
 
 #stram打印
 #for chunk in client.stream(message):

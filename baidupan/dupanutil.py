@@ -1,0 +1,53 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+@Project ：pythonProject
+@File    ：baidupanutil.py
+@Author  ：BillFang
+@Date    ：2026/4/14 13:32
+@Description :
+"""
+from dupan import DuPanFileSystem
+import os
+import requests
+
+def get_baidu_file_list(access_token, bduss, file_path):
+    # 1. 登录（用BDUSS）
+    cookie = "BDUSS=" + bduss + "; STOKEN=" +access_token
+    fs = DuPanFileSystem.login(cookie)
+
+    # 2. 获取文件直链 dlink
+    dlink = fs.get_url(file_path)
+    print(dlink)
+    return dlink
+    # 3. Aria2 RPC 下载（不限速）
+    ##aria2.add_uri(dlink, save_dir="./downloads", options={"max-connection-per-server": "16"})
+
+
+def python_download(file_url, save_path, access_token):
+    save_dir = os.path.dirname(save_path)
+    os.makedirs(save_dir, exist_ok=True)
+
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+        "Referer": "https://pan.baidu.com/",
+        "Host": "d.pcs.baidu.com",
+        "Cookie": "BIDUPSID=C0DD2133B3515AF0466C9765427B51D8; PSTM=1775702971; BAIDUID=F940AE2C3C5281FAF907A13AD3101169:FG=1; Hm_lvt_7a3960b6f067eb0085b7f96ff5e660b0=1775703906; PANWEB=1; BDCLND=PUXFnPHJ2loMhHezBVGu1sH%2B2moJ8MnUkkO2u94M7PI%3D; BDORZ=FFFB88E999055A3F8A630C64834BD6D0; BAIDUID_BFESS=F940AE2C3C5281FAF907A13AD3101169:FG=1; ZFY=:BJT2YLRMZ40VlH:BcscuWP7YCU:A:ARcbRrHkE0RWqH7:AA:C; BDRCVFR[C0sZzZJZb70]=mk3SLVN4HKm; H_PS_PSSID=63148_67861_68166_68225_68267_68379_68420_68455_68437_68541_68580_68516_68621_68612_68668_68739_68727_68809_68875_68888_68905_68920_68994_69006_69017_69009_69013_69024_69040_69057_68551_69071_69033_69084_69097_69087_69154_69191_69203_69219; delPer=0; PSINO=5; H_WISE_SIDS=63148_67861_68166_68225_68267_68379_68420_68455_68437_68541_68580_68516_68621_68612_68668_68739_68727_68809_68875_68888_68905_68920_68994_69006_69017_69009_69013_69024_69040_69057_68551_69071_69033_69084_69097_69087_69154_69191_69203_69219; csrfToken=vBIW2QcwEIQqmuSd2zT-PYB5; newlogin=1; ploganondeg=1; ppfuid=FOCoIC3q5fKa8fgJnwzbE67EJ49BGJeplOzf+4l4EOvDuu2RXBRv6R3A1AZMa49I27C0gDDLrJyxcIIeAeEhD8JYsoLTpBiaCXhLqvzbzmvy3SeAW17tKgNq/Xx+RgOdb8TWCFe62MVrDTY6lMf2GrfqL8c87KLF2qFER3obJGkz2D6Cjm+vcw2e7spDhnGYGEimjy3MrXEpSuItnI4KD41Hdc+BQt1YLP2NF+Pdj8zuTApJlJ9GDuTVDmKGRb7cbWc7pVllZD5t1sHzBBK8rRJsVwXkGdF24AsEQ3K5XBbh9EHAWDOg2T1ejpq0s2eFz67xpujr1V+of2ZgvZNzVJUmpzMha9qUygwaQJhnJSpr89lTcN5WOzgcqGL7f6biFCMUN0p4SXVVUMsKNJv2T2Q0Rs14gDuqHJ3rxHJuOGO4LkPV+7TROLMG0V6r0A++zkWOdjFiy1eD/0R8HcRWYvoof6mSAGHJpuboM5joRsCp+HBavJhpxl858h16cMtKQmxzisHOxsE/KMoDNYYE7ucLE22Bi0Ojbor7y6SXfVj7+B4iuZO+f7FUDWABtt/WWQqHKVfXMaw5WUmKnfSR5wwQa+N01amx6X+p+x97kkGmoNOSwxWgGvuezNFuiJQdt51yrWaL9Re9fZveXFsIu/gzGjL50VLcWv2NICayyI8BE9m62pdBPySuv4pVqQ9Sl1uTC//wIcO7QL9nm+0N6JgtCkSAWOZCh7Lr0XP6QztjlyD3bkwYJ4FTiNanaDaDDRgJki1XofjAALgVW51r9Pq419nWN0nRBjsX6XYKZuikUskhBquhUmSxFKSdzvMESGk66HDxtjKMU4HPNa0dthtJr0AzkHVTbxkQM8ES9IxE+BL3VTDsIlBc1QPENH6BclCgbSxCEs59D4foI+Eu7btgap0Cwf09voaM3EmKl935lKDroUEQoTUKPizNcNEL45kT4B7VNW+H1oMzpzLvWcD05kuRm4sFZh/o1XJ6o5ZazU62XvOvycqQeNHJHilKXv+Y0q7CT6wHNqzprY+XMxDln8dKB7nefcEun8dlqoZs4uNOo+pkpyckwWP4VbWloC92vUUtZ2lVqKiGsvJKvLgaUA9sPnxLHpdf4XomqPJzwaYMRRvnyvNvptYm/H9TJ82EtrgcP/nqg17T/hHrOFW2byp/ouxpI4lF8dQtOogBfcrGXrDHbdYEoz55OAGISs/kEn2kikYfHcMOTvlvvnybgKXWVRgHR9zCG7jZoRIJcXe6HpWGsfMtkPHUjgkj; XFI=c35f5030-37c3-11f1-8a89-fdab847dd2d4; XFCS=5D936C58C7BDE80EEDE44B4A59B4A74E3D17377AF07514DC0BF78C906DF3FFF5; XFT=BZEU1Hxfof8px1IayydX0Nio76aZTyryOCiWXRDv1Rw=; BDUSS=BlU35qQUs2eDIxMEZOdVcweExrU1lZblMycE9pa1hHUFhwb1pyRkRjMDhYd1ZxSVFBQUFBJCQAAAAAAAAAAAEAAACzPMEJt71hbmSx6wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADzS3Wk80t1pTX; BDUSS_BFESS=BlU35qQUs2eDIxMEZOdVcweExrU1lZblMycE9pa1hHUFhwb1pyRkRjMDhYd1ZxSVFBQUFBJCQAAAAAAAAAAAEAAACzPMEJt71hbmSx6wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADzS3Wk80t1pTX; STOKEN=0f72c1757b673702407f7fb400795a6c37f0901b866f5d6c8b5befc8bb8685c7; Hm_lvt_182d6d59474cf78db37e0b2248640ea5=1776144958; ndut_fmt=F98BF7CE0C7951421668C724A56BAEB3B10E637E8A41DF0872D6FD4F19132A6D; ab_sr=1.0.1_YTQzNmM0MTQ4ZmIwMjVjOGFmNDMzMmY1YTI1MGQ1Y2RiYjgyNjVmYzUzMzJhN2RkMjc1MTllNjU0YTUxOGViYWZhMGM1ODUwNDljZjMyZTRiOWMzODE2Mjg4YjdiMmE2ZTliYjI4YmJjODBmN2Y4YTE5YjYyMzhlNTBkMjIyM2ZmYWI1NjNhNmE5Mzc5MzVmZGRmZmQwZjFmNzAwM2ExMjM2MTgxMTM0OTk0MmExNWVlMDFiNTA4OWYwNDk1Mzc0; Hm_lpvt_182d6d59474cf78db37e0b2248640ea5=1776149813; PANPSC=17283248262870436947%3AN%2BPEInrc9NVmFajzKmirnVcS2d9ns3O5C61tf8CKQkh2rRumxSc9dqUY4cQrI%2BJ7rQ3NWaQBO%2FOJF0w84nmUD8%2FNbbUaC9LQnJNE%2FQLbZEHiRClWYPNr2W8GftCJinR0rCMp42ERXP42jyb7JodIirvtbMLU%2FJYsuvcMP1zPO9dAnA13%2BASJnKiEhIPF2zzulxEjsSl24iFipl3L3NnXeWx9nzu7xbIvLCBwnKh4IITK3DyRjZrF3hlP3%2BXEyuIuAJHucyIem1ebfSougxNv6Qve0Vi1OyLnphsweESzfIBJAXit%2FD1bDZKxVlqrIDxM"  # 带上token
+    }
+
+    # 流式下载，支持断点续传
+    with requests.get(file_url, headers=headers, stream=True, timeout=30) as r:
+        r.raise_for_status()
+        with open(save_path, 'wb') as f:
+            for chunk in r.iter_content(chunk_size=1024*1024):  # 1MB分块
+                if chunk:
+                    f.write(chunk)
+    print(f"✅ 下载完成：{save_path}")
+
+if __name__ == '__main__':
+    aubss = "BlU35qQUs2eDIxMEZOdVcweExrU1lZblMycE9pa1hHUFhwb1pyRkRjMDhYd1ZxSVFBQUFBJCQAAAAAAAAAAAEAAACzPMEJt71hbmSx6wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADzS3Wk80t1pTX"
+    access_token = "0f72c1757b673702407f7fb400795a6c37f0901b866f5d6c8b5befc8bb8685c7"
+    file_path = "/照片/1476282810035.jpeg"
+    file_url = get_baidu_file_list(access_token, aubss, file_path)
+    python_download(file_url, "D:/123/tmp.jpg", access_token)
+    print(file_url)
