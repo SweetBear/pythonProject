@@ -213,7 +213,7 @@ def get_baidu_dlink(access_token, target_file_path):
         return None
 
 if __name__ == '__main__':
-    access_token = "0f72c1757b673702407f7fb400795a6c37f0901b866f5d6c8b5befc8bb8685c7"
+    access_token = ""
     file_path = "/照片/1476282810035.jpeg"
     file_url = get_baidu_file_list(access_token)
 
