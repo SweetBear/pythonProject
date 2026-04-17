@@ -11,10 +11,12 @@
 import requests
 from langchain_core.tools import tool
 
+from config_loader import ConfigLoader
+
+
 class OpenWeather():
     def __init__(self, APPID):
         self.app_id = APPID
-
 
     def get_lat_lon(self, city_name):
         geo_url = "http://api.openweathermap.org/geo/1.0/direct"
@@ -39,6 +41,8 @@ class OpenWeather():
         except Exception as e:
             print("获取经纬度失败:", e)
             return None, None
+
+
 @tool
 def get_city_weather_data(city_name) -> dict:
     """
@@ -48,7 +52,11 @@ def get_city_weather_data(city_name) -> dict:
         :param appid: OpenWeatherMap 申请的 API Key
         :return: 天气数据字典 / None
         """
-    weather_client = OpenWeather(APPID='ab203b794f7b27b777bb48f4eb30838c')
+    config_loader = ConfigLoader()
+    openweather_config = config_loader.get_openweather_config()
+    print(openweather_config)
+    print(openweather_config["app_id"])
+    weather_client = OpenWeather(APPID=openweather_config["app_id"])
     base_url = "https://api.openweathermap.org/data/2.5/weather"
     lat, lon = weather_client.get_lat_lon(city_name)
     # 请求参数
@@ -73,7 +81,7 @@ def get_city_weather_data(city_name) -> dict:
         print(f"请求出错：{e}")
         return None
 
-if __name__ == '__main__':
-    #方法加上@tool时必须使用.invlke方法调用
-    print(get_city_weather_data.invoke('扬州'))
 
+if __name__ == '__main__':
+    # 方法加上@tool时必须使用.invoke方法调用
+    print(get_city_weather_data.invoke('扬州'))

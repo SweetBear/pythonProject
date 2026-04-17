@@ -38,7 +38,6 @@ def rsa_private_key_decrypt(cipher_text, rsa_private_key):
 
 
 if __name__ == '__main__':
-
     sign = 'Arae2mo8iKzdILicBVKHpALkQ4ovozW6hNg+Xd9J/Er4HdQ9ilts3YuolZn4OV/JDCDDpF2ps16r9a2GbagzehSiKyDnEBtpYwLXpf6Y5vTKuj3fSSzwdGGemGZolhqQVsVV92V8CioG4Tut64nE/sC/51iCJnZaY+Wnnop7pQAPeHgR3KxJZldg/mrL3AfHQS1jiHxKuSybdZgSqIpae/QaQ4lqVZp4M1lEbyMCiUEhNUlTZIbc+NYYJvtecvaCsSTSl20fGSK9XVwwWcuToJXN3Ca8BUlXiRofc3MzLyDqSz57HKSWp5BYbaz/q06NVQbmPKxWqigFWG23CPi9GQ=='
     n = p * q
     phi = (p - 1) * (q - 1)
@@ -46,8 +45,3 @@ if __name__ == '__main__':
     d = gmpy2.invert(e, phi)
 
     decrypt(d, n, sign)
-
-
-
-
-

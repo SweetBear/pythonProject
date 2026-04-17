@@ -17,7 +17,7 @@ class ConfigLoader:
     _instance = None
     _config = None
 
-    def __new__(cls, config_path: str = "config.properties"):
+    def __new__(cls, config_path: str = r"D:/pythonCode/pythonProject/resources/config.properties"):
         if cls._instance is None:
             cls._instance = super().__new__(cls)
             cls._instance._load_config(config_path)
@@ -68,5 +68,14 @@ class ConfigLoader:
             config["max_tokens"] = int(self.get(section, "max_tokens"))
         except:
             config["max_tokens"] = 1024
+
+        return config
+
+    def get_openweather_config(self) -> Dict[str, Any]:
+        section = "openweather"
+        # 必填配置
+        config = {
+            "app_id": self.get(section, "app_id"),
+        }
 
         return config

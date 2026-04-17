@@ -23,28 +23,25 @@ print(f"可用 GPU 数量: {torch.cuda.device_count()}")
 gpu_name = torch.cuda.get_device_name(0)
 print(f"GPU 0 Name: {gpu_name}")'''
 
-
-#张量
-#全是0张量
+# 张量
+# 全是0张量
 '''tmp = torch.zeros(2,3)
 print(tmp)'''
-#全是1张量
+# 全是1张量
 '''tmp = torch.ones(2,3)
 print(tmp)'''
 
-#使用numpy导入张量
+# 使用numpy导入张量
 '''num_arr = np.array([[1,2,3],[3,4,5]])
 tmp = torch.from_numpy(num_arr)
 print(tmp)'''
 
-
-#随机张量
+# 随机张量
 '''time1 = time.time()
 tmp = torch.randn(2,3)
 time2 = time.time()
 print(time2 - time1)
 print(tmp)'''
-
 
 # 在指定设备（CPU/GPU）上创建张量
 '''time1 = time.time()
@@ -72,7 +69,7 @@ print(g.transpose(0, 1))
 # 张量的形状
 print(g.shape)'''
 
-#梯度和自动微分
+# 梯度和自动微分
 '''# 创建一个需要梯度的张量
 tensor_requires_grad = torch.tensor([1.0], requires_grad=True)
 print(tensor_requires_grad)
@@ -99,7 +96,7 @@ out.backward()
 # 查看 x 的梯度
 print(x.grad)'''
 
-#张量堆叠
+# 张量堆叠
 '''tensor_2d = torch.tensor([
     [2,2,2,2,3],
     [4,5,6,7,8],
@@ -163,10 +160,9 @@ print("大于 3 的元素的布尔掩码:\n", mask)
 filtered_tensor = tensor[tensor > 3]  # 筛选出符合条件的元素
 print("大于 3 的元素:\n", filtered_tensor)'''
 
-
-data = torch.randn(100,2)
+data = torch.randn(100, 2)
 print(data)
-labels1 = (data[:, 0]**2 + data[:, 1]**2 < 1).float()
+labels1 = (data[:, 0] ** 2 + data[:, 1] ** 2 < 1).float()
 print(labels1)
 labels = labels1.unsqueeze(1)  # 点在圆内为1，圆外为0
 print(labels)
@@ -177,4 +173,3 @@ plt.title("Generated Data")
 plt.xlabel("Feature 1")
 plt.ylabel("Feature 2")
 plt.show()
-

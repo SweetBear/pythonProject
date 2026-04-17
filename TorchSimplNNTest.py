@@ -13,7 +13,6 @@ import numpy as np
 
 import matplotlib.pyplot as plt
 
-
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -22,7 +21,7 @@ import matplotlib.pyplot as plt
 # 生成一些随机数据
 n_samples = 100
 data = torch.randn(n_samples, 2)  # 生成 100 个二维数据点
-labels = (data[:, 0]**2 + data[:, 1]**2 < 1).float().unsqueeze(1)  # 点在圆内为1，圆外为0
+labels = (data[:, 0] ** 2 + data[:, 1] ** 2 < 1).float().unsqueeze(1)  # 点在圆内为1，圆外为0
 
 # 可视化数据
 plt.scatter(data[:, 0], data[:, 1], c=labels.squeeze(), cmap='coolwarm')
@@ -30,6 +29,7 @@ plt.title("Generated Data")
 plt.xlabel("Feature 1")
 plt.ylabel("Feature 2")
 plt.show()
+
 
 # 定义前馈神经网络
 class SimpleNN(nn.Module):
@@ -44,6 +44,7 @@ class SimpleNN(nn.Module):
         x = torch.relu(self.fc1(x))  # 使用 ReLU 激活函数
         x = self.sigmoid(self.fc2(x))  # 输出层使用 Sigmoid 激活函数
         return x
+
 
 # 实例化模型
 model = SimpleNN()
@@ -68,6 +69,7 @@ for epoch in range(epochs):
     if (epoch + 1) % 10 == 0:
         print(f'Epoch [{epoch + 1}/{epochs}], Loss: {loss.item():.4f}')
 
+
 # 可视化决策边界
 def plot_decision_boundary(model, data):
     x_min, x_max = data[:, 0].min() - 1, data[:, 0].max() + 1
@@ -83,5 +85,5 @@ def plot_decision_boundary(model, data):
     plt.title("Decision Boundary")
     plt.show()
 
-plot_decision_boundary(model, data)
 
+plot_decision_boundary(model, data)

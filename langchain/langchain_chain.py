@@ -2,19 +2,18 @@
 # -*- coding: utf-8 -*-
 """
 @Project ：pythonProject
-@File    ：langchain_skill.py
+@File    ：langchain_chain.py
 @Author  ：BillFang
 @Date    ：2026/4/15 09:37
 @Description :
 """
-import json
 from langchain_core.output_parsers import JsonOutputKeyToolsParser
 from langchain_core.prompts import ChatPromptTemplate
 
 from config_loader import ConfigLoader
-import openai
 from langchain_openai import ChatOpenAI
 from utils.weather_util import get_city_weather_data
+
 
 def direct_question(client):
     chat_template = ChatPromptTemplate.from_messages([
@@ -28,9 +27,11 @@ def direct_question(client):
 
     return response.content
 
-def final_resonse(client, ai_msg):
+
+def final_response(client, ai_msg):
     chat_template = ChatPromptTemplate.from_messages([
-        ("system", "这是实时的{city}的天气数据，信息来源于Openweather API：https://api.openweathermap.org/data/2.5/weather，详细数据为：{detail}。"),
+        ("system",
+         "这是实时的{city}的天气数据，信息来源于Openweather API：https://api.openweathermap.org/data/2.5/weather，详细数据为：{detail}。"),
         ("system", "请你解析一下该数据，以自然语言的形式输出。")
     ])
 
@@ -46,28 +47,29 @@ if __name__ == '__main__':
     config = ConfigLoader()
     xiaomi_cfg = config.get_xiaomi_config()
 
-    openai.api_key = xiaomi_cfg["api_key"]
-    openai.api_base_url = xiaomi_cfg["api_base_url"]
-    client = ChatOpenAI(api_key=openai.api_key, base_url=openai.api_base_url, model=xiaomi_cfg["model"])
+    api_key = xiaomi_cfg["api_key"]
+    api_base_url = xiaomi_cfg["api_base_url"]
+    api_model = xiaomi_cfg["model"]
+    client = ChatOpenAI(api_key=api_key, base_url=api_base_url, model=api_model)
 
     tools = [get_city_weather_data]
 
-    #绑定tools
+    # 绑定tools
     client_with_tool = client.bind_tools(tools)
 
-    chain = client_with_tool | JsonOutputKeyToolsParser(key_name="get_city_weather_data", first_tool_only=True) | get_city_weather_data
+    chain = client_with_tool | JsonOutputKeyToolsParser(key_name="get_city_weather_data",
+                                                        first_tool_only=True) | get_city_weather_data
 
-    weather_str = chain.invoke("今天扬州天气怎么样？")
+    weather_str = chain.invoke("今天北京和扬州的天气比较，哪个城市的天气更适合出去踏青？")
     print(weather_str)
     # 数据增强
-    reponse = final_resonse(client, weather_str)
+    reponse = final_response(client, weather_str)
 
     print("使用天气查询skill返回的结果：")
     print(reponse)
-    print("+++++++++++++++++++++++++++++++++++++++++")
+    '''print("+++++++++++++++++++++++++++++++++++++++++")
     print("+++++++++++++++++++++++++++++++++++++++++")
     print("+++++++++++++++++++++++++++++++++++++++++")
     reponse = direct_question(client)
     print("直接询问大模型天气得到的结果：")
-    print(reponse)
-
+    print(reponse)'''

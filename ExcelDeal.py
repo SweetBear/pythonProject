@@ -6,7 +6,7 @@
 @File    : ExcelDeal.py
 @Desc    : 
 """
-from openpyxl import Workbook,load_workbook
+from openpyxl import Workbook, load_workbook
 import mysql.connector
 import requests
 import re
@@ -25,10 +25,10 @@ def dealPhoneStr(dpt_name, per_name, phones):
             else:
                 tmp = item.replace(item, '<a href="tel:' + item + '">' + item + '</a>')
         tmp = "<div class=\"rbox\">" + tmp + "</div>"
-        db_str = "<div class=\"cbox\">" + dpt_name + "，" + per_name +  "，" +  tmp + "</div>"
+        db_str = "<div class=\"cbox\">" + dpt_name + "，" + per_name + "，" + tmp + "</div>"
     else:
         phones = phones.replace(phones, '<a href="tel:' + phones + '">' + phones + '</a>')
-        db_str = "<div class=\"rbox\">" + dpt_name + "，" + per_name +  "，" +  phones + "</div>"
+        db_str = "<div class=\"rbox\">" + dpt_name + "，" + per_name + "，" + phones + "</div>"
     return db_str
 
 
@@ -59,11 +59,7 @@ def dealHotLine(hotline):
 
         phone_str = dealPhoneStr(dpt_name, per_name, phones)
 
-
         return phone_str
-
-
-
 
 
 if __name__ == '__main__':
@@ -104,7 +100,8 @@ if __name__ == '__main__':
         uid = uuid.uuid4()
         uid = str(uid).replace('-', '')
 
-        sql = "INSERT INTO `tw_web`.`abc_renewal_loan_info` (`code`, `sort`,`classify`, `bank_name`, `policy_info`, `target_object`, `application_condition`, `time_limit`, `hotline`) VALUES ('" + uid + "', '"  + str(sort) + "', '" + classify + "', '" + bank_name + "', '" + policy_info + "', '" + target_object + "', '" + application_condition + "', '" + time_limit + "','" + hotline + "');"
+        sql = "INSERT INTO `tw_web`.`abc_renewal_loan_info` (`code`, `sort`,`classify`, `bank_name`, `policy_info`, `target_object`, `application_condition`, `time_limit`, `hotline`) VALUES ('" + uid + "', '" + str(
+            sort) + "', '" + classify + "', '" + bank_name + "', '" + policy_info + "', '" + target_object + "', '" + application_condition + "', '" + time_limit + "','" + hotline + "');"
 
         print(i)
         i = i + 1
@@ -112,7 +109,3 @@ if __name__ == '__main__':
 
     # 提交更新
     db.commit()
-
-
-
-

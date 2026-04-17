@@ -27,7 +27,6 @@ print(text)
 with open("D:\\pythonTool\\视频文字.txt", "w", encoding="utf-8") as f:
     f.write(text)'''
 
-
 # ======================
 # 超强配置：准、快、带标点
 # ======================
@@ -37,14 +36,13 @@ model = WhisperModel(
     compute_type="int8"  # 速度最快
 )
 
-
 # 开始识别
 segments, info = model.transcribe(
     audio_path,
-    language="zh",      # 强制中文
-    beam_size=3,        # 更准
-    vad_filter=False,    # 过滤静音
-    temperature=0.0,      # 固定温度，避免重复推理，加速
+    language="zh",  # 强制中文
+    beam_size=3,  # 更准
+    vad_filter=False,  # 过滤静音
+    temperature=0.0,  # 固定温度，避免重复推理，加速
     word_timestamps=False,
     initial_prompt="以下是普通话语音转写，请使用标准标点符号，断句自然。"  # 强制加标点
 )

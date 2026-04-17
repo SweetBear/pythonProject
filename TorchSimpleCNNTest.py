@@ -12,13 +12,13 @@ import torch.nn.functional as F
 import torch.optim as optim
 from torchvision import datasets, transforms
 
-
 # 1. 数据加载与预处理
 transform = transforms.Compose([
     transforms.ToTensor(),  # 转为张量
     transforms.Normalize((0.5,), (0.5,))  # 归一化到 [-1, 1]
 ])
 import matplotlib.pyplot as plt
+
 # 加载 MNIST 数据集
 train_dataset = datasets.MNIST(root='D:/dataSet', train=True, transform=transform, download=True)
 test_dataset = datasets.MNIST(root='D:/dataSet', train=False, transform=transform, download=True)
@@ -40,13 +40,14 @@ class SimpleCNN(nn.Module):
 
     def forward(self, x):
         x = F.relu(self.conv1(x))  # 第一层卷积 + ReLU
-        x = F.max_pool2d(x, 2)     # 最大池化
+        x = F.max_pool2d(x, 2)  # 最大池化
         x = F.relu(self.conv2(x))  # 第二层卷积 + ReLU
-        x = F.max_pool2d(x, 2)     # 最大池化
-        x = x.view(-1, 64 * 7 * 7) # 展平
-        x = F.relu(self.fc1(x))    # 全连接层 + ReLU
-        x = self.fc2(x)            # 最后一层输出
+        x = F.max_pool2d(x, 2)  # 最大池化
+        x = x.view(-1, 64 * 7 * 7)  # 展平
+        x = F.relu(self.fc1(x))  # 全连接层 + ReLU
+        x = self.fc2(x)  # 最后一层输出
         return x
+
 
 # 创建模型实例
 model = SimpleCNN()
@@ -71,7 +72,7 @@ for epoch in range(num_epochs):
 
         total_loss += loss.item()
 
-    print(f"Epoch [{epoch+1}/{num_epochs}], Loss: {total_loss / len(train_loader):.4f}")
+    print(f"Epoch [{epoch + 1}/{num_epochs}], Loss: {total_loss / len(train_loader):.4f}")
 
 # 5. 模型测试
 model.eval()  # 设置模型为评估模式

@@ -6,7 +6,7 @@
 @File    : ExcelDeal.py
 @Desc    : 
 """
-from openpyxl import Workbook,load_workbook
+from openpyxl import Workbook, load_workbook
 import mysql.connector
 import requests
 import os
@@ -34,7 +34,8 @@ if __name__ == '__main__':
     cursor = db.cursor()
 
     # 查询所有记录
-    cursor.execute("SELECT t.stu_code,t.cover,t.stu_name,r.name as class_name,e.grade_name FROM org_student t left join org_class_info r on r.`code`=t.class_code left join org_grade e on e.grade_code=t.grade_code where t.isdel=0 and t.org_code='8ce5652a58e8414bb54f21c17d44ab13' and t.cover is not null and t.cover !='' order by e.grade_name,r.name")
+    cursor.execute(
+        "SELECT t.stu_code,t.cover,t.stu_name,r.name as class_name,e.grade_name FROM org_student t left join org_class_info r on r.`code`=t.class_code left join org_grade e on e.grade_code=t.grade_code where t.isdel=0 and t.org_code='8ce5652a58e8414bb54f21c17d44ab13' and t.cover is not null and t.cover !='' order by e.grade_name,r.name")
 
     # 获取查询结果
     results = cursor.fetchall()
@@ -42,7 +43,7 @@ if __name__ == '__main__':
     i = 0
     for row in results:
         i = i + 1
-        #print(str(i) + "-->" + key + "-->" + stu_dict[key])
+        # print(str(i) + "-->" + key + "-->" + stu_dict[key])
         student_name = row[2]
         cover_url = row[1]
         class_name = row[4] + row[3]
@@ -53,10 +54,7 @@ if __name__ == '__main__':
             os.makedirs(output_path)
 
         output_name = output_path + student_name + '.' + img_type
-        #print(output_name)
+        # print(output_name)
         get_url_img(cover_url, output_path + student_name + '.' + img_type)
 
         print(student_name + "--->" + class_name + "--->" + cover_url)
-
-
-

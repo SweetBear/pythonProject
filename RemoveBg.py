@@ -8,13 +8,13 @@
 """
 from PIL import Image
 import os
-from rembg import remove,new_session
+from rembg import remove, new_session
 
 input_img = "E:\\img_test\\input"
 output_img = "E:\\img_test\\output"
 
 
-#获取目录下全部图片文件
+# 获取目录下全部图片文件
 def getFileList(file_path):
     imgs_path = []
     for filename in os.listdir(file_path):
@@ -24,7 +24,7 @@ def getFileList(file_path):
     return imgs_path
 
 
-#app = Flask(__name__)
+# app = Flask(__name__)
 
 
 """@app.route('/remove_img_bg')
@@ -33,13 +33,10 @@ def hello_world():
     print(request.args.get('dir2'))
     return 'Hello, World!'"""
 
-
 """if __name__ == '__main__':
     app.run()"""
 
-
-if __name__=='__main__':
-
+if __name__ == '__main__':
     # 待处理的图片路径
     input_path = 'E:\\img_test\\input\\1.jpg'
     # 处理后存储的图片路径
@@ -73,4 +70,3 @@ if __name__=='__main__':
         input.close()
         output.close()
         background.close()"""
-

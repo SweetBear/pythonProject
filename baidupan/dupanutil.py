@@ -11,9 +11,10 @@ from dupan import DuPanFileSystem
 import os
 import requests
 
+
 def get_baidu_file_list(access_token, bduss, file_path):
     # 1. 登录（用BDUSS）
-    cookie = "BDUSS=" + bduss + "; STOKEN=" +access_token
+    cookie = "BDUSS=" + bduss + "; STOKEN=" + access_token
     fs = DuPanFileSystem.login(cookie)
 
     # 2. 获取文件直链 dlink
@@ -39,10 +40,11 @@ def python_download(file_url, save_path, access_token):
     with requests.get(file_url, headers=headers, stream=True, timeout=30) as r:
         r.raise_for_status()
         with open(save_path, 'wb') as f:
-            for chunk in r.iter_content(chunk_size=1024*1024):  # 1MB分块
+            for chunk in r.iter_content(chunk_size=1024 * 1024):  # 1MB分块
                 if chunk:
                     f.write(chunk)
     print(f"✅ 下载完成：{save_path}")
+
 
 if __name__ == '__main__':
     aubss = ""

@@ -10,6 +10,7 @@ import gzip
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 # 读取图片文件
 def read_mnist_images(filename):
     with gzip.open(filename, 'rb') as f:
@@ -19,13 +20,15 @@ def read_mnist_images(filename):
     data = data.reshape(-1, 28, 28)  # (N, 28, 28)
     return data
 
+
 # 读取标签文件
 def read_mnist_labels(filename):
     with gzip.open(filename, 'rb') as f:
-        f.read(8)   # 跳过前8字节头部
+        f.read(8)  # 跳过前8字节头部
         buf = f.read()
     labels = np.frombuffer(buf, dtype=np.uint8)
     return labels
+
 
 # 你的路径（和你下载的4个gz文件一致）
 train_images = read_mnist_images('D:/dataSet/MNIST/raw/train-images-idx3-ubyte.gz')

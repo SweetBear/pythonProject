@@ -10,13 +10,13 @@ import pymongo
 
 
 class MongoDBUtil:
-
     """
     MongoDB工具类
     """
+
     def __init__(self, ip="218.90.198.56", db_name=None, port=27017):
         """构造函数"""
-        self.client = pymongo.MongoClient(host=ip, port=port,username="admin",password="tw!&&)!$$)*!!!#13202306")
+        self.client = pymongo.MongoClient(host=ip, port=port, username="admin", password="tw!&&)!$$)*!!!#13202306")
 
         self.database = self.client[db_name]
         print(self.database)
@@ -46,7 +46,7 @@ class MongoDBUtil:
     def create_collection(self, collect_name):
         """创建集合"""
         collect = self.database.get_collection(collect_name)
-        if(collect is not None):
+        if (collect is not None):
             print("collection %s already exists" % collect_name)
             return collect
         return self.database.create_collection(collect_name)
@@ -85,7 +85,8 @@ class MongoDBUtil:
 
     def find_one_and_delete(self, collect_name, filter, projection=None, sort=None, hint=None, session=None, **kwargs):
         """查询并删除一条记录"""
-        return self.database.get_collection(collect_name).find_one_and_delete(filter, projection, sort, hint, session, **kwargs)
+        return self.database.get_collection(collect_name).find_one_and_delete(filter, projection, sort, hint, session,
+                                                                              **kwargs)
 
     def count_documents(self, collect_name, filter, session=None, **kwargs):
         """查询文档数目"""
@@ -103,45 +104,49 @@ class MongoDBUtil:
                multi=False, check_keys=True, **kwargs):
         """更新所有记录"""
         return self.database.get_collection(collect_name).update(spec, document,
-                                upsert, manipulate, multi, check_keys, **kwargs)
+                                                                 upsert, manipulate, multi, check_keys, **kwargs)
 
     def update_one(self, collect_name, filter, update, upsert=False, bypass_document_validation=False,
-                                collation=None, array_filters=None, hint=None, session=None):
+                   collation=None, array_filters=None, hint=None, session=None):
         """更新一条记录"""
         return self.database.get_collection(collect_name).update_one(filter, update,
-                                upsert, bypass_document_validation, collation, array_filters, hint, session)
+                                                                     upsert, bypass_document_validation, collation,
+                                                                     array_filters, hint, session)
 
     def update_many(self, collect_name, filter, update, upsert=False, array_filters=None,
-                                bypass_document_validation=False, collation=None, hint=None, session=None):
+                    bypass_document_validation=False, collation=None, hint=None, session=None):
         """更新所有记录"""
         return self.database.get_collection(collect_name).update_many(filter, update,
-                                upsert, array_filters, bypass_document_validation, collation, hint, session)
+                                                                      upsert, array_filters, bypass_document_validation,
+                                                                      collation, hint, session)
 
     def find_one_and_update(self, collect_name, filter, update, projection=None, sort=None, upsert=False,
-                           return_document=False, array_filters=None, hint=None, session=None, **kwargs):
+                            return_document=False, array_filters=None, hint=None, session=None, **kwargs):
         """查询并更新一条记录"""
         return self.database.get_collection(collect_name).find_one_and_update(filter, update, projection,
-                                sort, upsert, return_document, array_filters, hint, session, **kwargs)
+                                                                              sort, upsert, return_document,
+                                                                              array_filters, hint, session, **kwargs)
+
 
 if __name__ == "__main__":
     mongoUtil = MongoDBUtil(ip="218.90.198.56", db_name="db_book", port=27017)
     """数据库操作"""
-    #stat = mongoUtil.create_database(db_name="test")
+    # stat = mongoUtil.create_database(db_name="test")
     # stat = mongoUtil.drop_database(db_name="xl01")
-    #stat = mongoUtil.list_database_names()
-    #stat = mongoUtil.get_database(db_name="test")
+    # stat = mongoUtil.list_database_names()
+    # stat = mongoUtil.get_database(db_name="test")
     """集合操作"""
-    #stat = mongoUtil.create_collection(collect_name="user")
+    # stat = mongoUtil.create_collection(collect_name="user")
     # stat = mongoUtil.drop_collection(collect_name="xl_collect_01")
-    #stat = mongoUtil.get_collection(collect_name="user")
-    #stat = mongoUtil.list_collection_names()
+    # stat = mongoUtil.get_collection(collect_name="user")
+    # stat = mongoUtil.list_collection_names()
     """文档操作：增加"""
-    #document = {'uid':2,'name':'042044','real_name':'测试','sex':1,'email':'425932688@sina.cn','age':32}
-    #stat = mongoUtil.insert_one(collect_name="user", document=document)
+    # document = {'uid':2,'name':'042044','real_name':'测试','sex':1,'email':'425932688@sina.cn','age':32}
+    # stat = mongoUtil.insert_one(collect_name="user", document=document)
     # documents = [{'x': i} for i in range(2)]
-    #documents = [{"name": "hao123", "type": "搜索引擎"} for i in range(2)]
+    # documents = [{"name": "hao123", "type": "搜索引擎"} for i in range(2)]
     # stat = mongoUtil.insert(collect_name="xl_collect_01", documents=documents)
-    #stat = mongoUtil.insert_many(collect_name="xl_collect_01", documents=documents)
+    # stat = mongoUtil.insert_many(collect_name="xl_collect_01", documents=documents)
     """文档操作：查询"""
     """ stat = mongoUtil.find_one(collect_name="xl_collect_01")
     print(type(stat), stat)

@@ -12,7 +12,7 @@ import requests
 import os
 
 
-def get_baidi_dlink(file_path:str, access_token:str) -> str:
+def get_baidi_dlink(file_path: str, access_token: str) -> str:
     """
         stoken:
         通过百度开放 API 获取文件直链 dlink
@@ -77,7 +77,6 @@ def get_baidu_file_list(access_token, target_path):
     except Exception as e:
         print(f"获取文件列表失败：{e}")
         return None
-
 
 
 def get_baidu_dlink(access_token, target_file_path):
@@ -211,6 +210,7 @@ def get_baidu_dlink(access_token, target_file_path):
     except Exception as e:
         print(f"请求失败：{e}")
         return None
+
 
 if __name__ == '__main__':
     access_token = ""
