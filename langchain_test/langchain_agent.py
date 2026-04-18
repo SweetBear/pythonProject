@@ -11,6 +11,7 @@
 # 标准库导入
 from typing import Annotated, Literal
 
+from langchain_test.agents.factory import create_agent
 # 第三方库导入
 from langchain_core.messages import SystemMessage, HumanMessage
 from langgraph.graph import MessagesState, StateGraph

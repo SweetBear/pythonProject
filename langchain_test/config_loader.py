@@ -17,7 +17,7 @@ class ConfigLoader:
     _instance = None
     _config = None
 
-    def __new__(cls, config_path: str = r"D:/pythonCode/pythonProject/resources/config.properties"):
+    def __new__(cls, config_path: str = r"E:\pycharm_code\resources\config.properties"):
         if cls._instance is None:
             cls._instance = super().__new__(cls)
             cls._instance._load_config(config_path)
